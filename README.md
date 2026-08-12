@@ -1,32 +1,136 @@
 # API Consulta IP
 
-API REST desenvolvida em Python com FastAPI para extração automática de IPs LAN, WAN, SBC e SIPTG.
+## 📌 Sobre o Projeto
 
-## Tecnologias
+A API Consulta IP foi desenvolvida para automatizar a análise de bilhetes operacionais utilizados pela equipe de configuração de produtos de Internet e Voz.
+
+O objetivo da solução é processar textos não estruturados, identificar informações relevantes de rede e extrair automaticamente endereços IPv4 associados aos ambientes:
+
+- LAN
+- WAN
+- SBC
+- SIPTG
+
+A aplicação reduz a necessidade de análise manual dos bilhetes, padronizando a coleta de informações e facilitando consultas futuras.
+
+---
+
+## 🚀 Funcionalidades
+
+- Extração automática de endereços IPv4.
+- Validação de IPv4 para garantir consistência dos dados.
+- Identificação de prefixos de rede (CIDR).
+- Processamento de textos não estruturados.
+- Retorno dos resultados em formato JSON.
+- Persistência dos dados em arquivo JSON.
+- API REST documentada automaticamente com Swagger/OpenAPI.
+- Testes compatíveis com Postman.
+
+---
+
+## 🏗️ Arquitetura
+
+```text
+Bilhete Operacional
+        ↓
+     FastAPI
+        ↓
+  Extração com Regex
+        ↓
+   Validação IPv4
+        ↓
+ Persistência JSON
+        ↓
+   Retorno JSON
+```
+
+---
+
+## 🛠️ Tecnologias Utilizadas
 
 - Python
 - FastAPI
-- Swagger/OpenAPI
-- JSON
 - Uvicorn
+- Regex (Expressões Regulares)
+- JSON
+- Swagger/OpenAPI
+- Postman
+- Git
+- GitHub
 
-## Funcionalidades
+---
 
-- Extração de IPs LAN
-- Extração de IPs WAN
-- Extração de IPs SBC
-- Extração de IPs SIPTG
-- Persistência em JSON
-- API REST
-- Swagger
+## 📂 Estrutura do Projeto
 
-## Executar
-
-```bash
-pip install -r requirements.txt
-uvicorn main:app --reload
+```text
+projeto/
+│
+├── main.py
+├── extractor.py
+├── storage.py
+├── ips.json
+└── requirements.txt
 ```
 
-## Swagger
+---
 
-http://127.0.0.1:8000/docs
+## 🔍 Exemplo de Entrada
+
+```json
+{
+  "texto": "WAN 200.200.250.200/30 LAN 10.10.10.10/29 SBC 172.16.110.5/28 SIPTG 100.100.100.100/24"
+}
+```
+
+---
+
+## ✅ Exemplo de Saída
+
+```json
+{
+  "LAN": {
+    "ip": "10.10.10.10",
+    "barramento": "/29"
+  },
+  "WAN": {
+    "ip": "200.200.250.200",
+    "barramento": "/30"
+  },
+  "SBC": {
+    "ip": "172.16.110.5",
+    "barramento": "/28"
+  },
+  "SIPTG": {
+    "ip": "100.100.100.100",
+    "barramento": "/24"
+  }
+}
+```
+
+---
+
+## 📡 Endpoints
+
+### POST /extrair
+
+Extrai os IPs encontrados no texto informado.
+
+#### Exemplo
+
+```http
+POST /extrair
+```
+
+Body:
+
+```json
+{
+  "texto": "WAN 200.200.250.200/30 LAN 10.10.10.10/29"
+}
+```
+
+---
+
+### GET /historico
+
+Retorna
