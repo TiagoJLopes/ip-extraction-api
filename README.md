@@ -2,14 +2,13 @@
 
 ## 📌 Sobre o Projeto
 
-A API Consulta IP foi desenvolvida para automatizar a análise de bilhetes operacionais utilizados pela equipe de configuração de produtos de Internet e Voz.
+A API Consulta IP foi desenvolvida para automatizar a análise de bilhetes operacionais.
 
 O objetivo da solução é processar textos não estruturados, identificar informações relevantes de rede e extrair automaticamente endereços IPv4 associados aos ambientes:
 
 - LAN
 - WAN
 - SBC
-- SIPTG
 
 A aplicação reduz a necessidade de análise manual dos bilhetes, padronizando a coleta de informações e facilitando consultas futuras.
 
