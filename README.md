@@ -2,27 +2,38 @@
 
 ## 📌 Sobre o Projeto
 
-A API Consulta IP foi desenvolvida para automatizar a análise de bilhetes operacionais.
+A **API Consulta IP** foi desenvolvida para automatizar a análise de bilhetes operacionais na área de redes e telecomunicações.
 
-O objetivo da solução é processar textos não estruturados, identificar informações relevantes de rede e extrair automaticamente endereços IPv4 associados aos ambientes:
+A solução processa textos não estruturados, identifica informações relevantes de rede e extrai automaticamente endereços IPv4 e seus respectivos prefixos (CIDR) associados aos ambientes:
 
 - LAN
 - WAN
 - SBC
+- SIPTG
 
-A aplicação reduz a necessidade de análise manual dos bilhetes, padronizando a coleta de informações e facilitando consultas futuras.
+Além da API REST, o projeto conta com uma interface web desenvolvida em **Streamlit**, permitindo que analistas coletem informações de um bilhete e obtenham os IPs extraídos em poucos segundos.
+
+### Benefícios
+
+- Redução da análise manual de chamados.
+- Padronização da coleta de informações.
+- Maior agilidade operacional.
+- Diminuição de erros humanos.
+- Facilidade para consultas futuras.
 
 ---
 
 ## 🚀 Funcionalidades
 
 - Extração automática de endereços IPv4.
-- Validação de IPv4 para garantir consistência dos dados.
-- Identificação de prefixos de rede (CIDR).
+- Validação de IPv4.
+- Identificação de prefixos CIDR (/0 até /32).
 - Processamento de textos não estruturados.
-- Retorno dos resultados em formato JSON.
-- Persistência dos dados em arquivo JSON.
-- API REST documentada automaticamente com Swagger/OpenAPI.
+- Extração dos campos LAN, WAN, SBC e SIPTG.
+- Retorno estruturado em JSON.
+- Persistência dos resultados em arquivo JSON.
+- API REST com documentação Swagger/OpenAPI.
+- Interface Web para usuários não técnicos.
 - Testes compatíveis com Postman.
 
 ---
@@ -32,15 +43,17 @@ A aplicação reduz a necessidade de análise manual dos bilhetes, padronizando 
 ```text
 Bilhete Operacional
         ↓
-     FastAPI
+ Interface Web (Streamlit)
         ↓
-  Extração com Regex
+      FastAPI
         ↓
-   Validação IPv4
+ Extração com Regex
+        ↓
+ Validação IPv4
         ↓
  Persistência JSON
         ↓
-   Retorno JSON
+  Retorno JSON
 ```
 
 ---
@@ -49,6 +62,7 @@ Bilhete Operacional
 
 - Python
 - FastAPI
+- Streamlit
 - Uvicorn
 - Regex (Expressões Regulares)
 - JSON
@@ -64,11 +78,13 @@ Bilhete Operacional
 ```text
 projeto/
 │
+├── app.py
 ├── main.py
 ├── extractor.py
 ├── storage.py
 ├── ips.json
-└── requirements.txt
+├── requirements.txt
+└── README.md
 ```
 
 ---
@@ -112,7 +128,7 @@ projeto/
 
 ### POST /extrair
 
-Extrai os IPs encontrados no texto informado.
+Extrai IPs e prefixos encontrados no texto informado.
 
 #### Exemplo
 
@@ -132,4 +148,141 @@ Body:
 
 ### GET /historico
 
-Retorna
+Retorna todos os registros armazenados no arquivo JSON.
+
+#### Exemplo de Resposta
+
+```json
+[
+  {
+    "tipo": "WAN",
+    "ip": "200.200.250.200",
+    "barramento": "/30"
+  },
+  {
+    "tipo": "LAN",
+    "ip": "10.10.10.10",
+    "barramento": "/29"
+  }
+]
+```
+
+---
+
+## 💻 Interface Web
+
+A aplicação possui uma interface desenvolvida com Streamlit para facilitar a utilização por analistas operacionais.
+
+### Fluxo de Uso
+
+1. Abrir a aplicação no navegador.
+2. Colar o texto completo do bilhete.
+3. Clicar em **Analisar**.
+4. Visualizar os IPs e prefixos identificados automaticamente.
+
+---
+
+## ⚙️ Como Executar o Projeto
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/SEU-USUARIO/consulta-ip.git
+```
+
+```bash
+cd consulta-ip
+```
+
+### 2. Criar ambiente virtual
+
+#### Windows
+
+```bash
+python -m venv .venv
+```
+
+```bash
+.venv\Scripts\activate
+```
+
+#### Linux/macOS
+
+```bash
+python3 -m venv .venv
+```
+
+```bash
+source .venv/bin/activate
+```
+
+### 3. Instalar dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Executar a API
+
+```bash
+uvicorn main:app --reload
+```
+
+API disponível em:
+
+```text
+http://localhost:8000
+```
+
+Documentação Swagger:
+
+```text
+http://localhost:8000/docs
+```
+
+### 5. Executar a Interface Web
+
+```bash
+streamlit run app.py
+```
+
+Interface disponível em:
+
+```text
+http://localhost:8501
+```
+
+---
+
+## 🎯 Caso de Uso
+
+### Antes
+
+```text
+Analista lê o bilhete manualmente.
+Localiza os IPs.
+Anota os dados.
+Valida as informações.
+```
+
+### Depois
+
+```text
+Analista cola o bilhete.
+Sistema extrai automaticamente.
+Resultado apresentado em segundos.
+```
+
+---
+
+## 👨‍💻 Autor
+
+**Tiago Junqueira Lopes**
+
+Desenvolvido como projeto de automação voltado para operações de redes e telecomunicações, aplicando Python, FastAPI, Streamlit e Expressões Regulares para otimizar a análise de bilhetes operacionais.
+
+---
+
+## 📜 Licença
+
+Este projeto está disponível para fins de estudo, aprendizado e demonstração de portfólio.
