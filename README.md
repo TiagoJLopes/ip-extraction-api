@@ -187,7 +187,7 @@ A aplicação possui uma interface desenvolvida com Streamlit para facilitar a u
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/SEU-USUARIO/consulta-ip.git
+git clone https://github.com/TiagoJLopes/consulta-ip.git
 ```
 
 ```bash
